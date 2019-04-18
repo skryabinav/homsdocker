@@ -1,0 +1,11 @@
+version: '2'
+services:
+  apache:
+    build:
+      context: ./docker/
+      dockerfile: ./apache.docker
+    volumes:
+      - ./www/:/var/www
+      - /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock
+    ports:
+      - "8080:80"
