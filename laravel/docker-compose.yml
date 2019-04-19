@@ -2,18 +2,18 @@ version: '2'
 services:
   nginx:
     build:
-      context: ./
+      context: ./docker/
       dockerfile: ./nginx.docker
     volumes:
-      - ./www/:/var/www
+      - ./workspace/:/var/www
     ports:
-      - "8080:80"
+      - "808:80"
     links:
       - php
   php:
     build:
-     context: ./
+     context: ./docker/
      dockerfile: ./phpfpm.docker
     volumes:
-      - ./www/:/var/www
+      - ./workspace/:/var/www
       - /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock
