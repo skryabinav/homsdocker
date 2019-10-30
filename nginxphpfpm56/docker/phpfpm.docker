@@ -1,9 +1,10 @@
 FROM ubuntu:18.04
 ARG full_name=5.6
 ARG short_name=56
+ARG user_id=1000
 ENV TZ 'Europe/Moscow'
 RUN echo $TZ > /etc/timezone
-RUN adduser --disabled-password --gecos "" fake
+RUN adduser --disabled-password --gecos "" --uid ${user_id} fake
 RUN apt-get update && apt-get install -y tzdata
 RUN apt-get -y install software-properties-common curl zip unzip locales zip unzip git
 # LOCALES
