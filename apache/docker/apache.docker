@@ -1,9 +1,6 @@
 FROM ubuntu:18.04
 ARG full_name=5.6
 ARG user_id=1000
-ENV TZ 'Europe/Moscow'
-RUN echo $TZ > /etc/timezone
-RUN adduser --disabled-password --gecos "" --uid ${user_id} fake
 RUN apt-get update && apt-get install -y tzdata
 RUN apt-get -y install software-properties-common apache2 apache2-bin apache2-utils curl zip unzip locales zip unzip git
 # LOCALES
@@ -12,17 +9,20 @@ RUN echo LC_ALL="ru_RU.UTF-8">>/etc/environment && echo LANGUAGE="ru_RU.UTF-8">>
 RUN add-apt-repository -y ppa:ondrej/php
 RUN apt update
 RUN apt-get install -y libapache2-mod-php${full_name} php${full_name} php${full_name}-cli php${full_name}-common php${full_name}-curl php${full_name}-gd php${full_name}-json php${full_name}-ldap php${full_name}-mbstring php${full_name}-mysql php${full_name}-opcache php${full_name}-readline php${full_name}-xml php${full_name}-zip
+RUN apt-get purge -y libssl-dev libxml2-dev libcurl4-openssl-dev libfreetype6-dev libmemcached-dev libjpeg-dev autoconf imagemagick libmagickwand-dev libpcre3-dev libgeoip-dev zlib1g-dev g++ pwgen wget make libmcrypt-dev libicu-dev re2c libmysqlclient-dev libzip-dev software-properties-common
+#CONFIG
+ENV TZ 'Europe/Moscow'
+RUN echo $TZ > /etc/timezone
+RUN adduser --disabled-password --gecos "" --uid ${user_id} fake
 RUN sed "s/APACHE_RUN_USER=www-data/APACHE_RUN_USER=fake/" -i /etc/apache2/envvars
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-#CONFIG
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/${full_name}/apache2/php.ini
 RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/${full_name}/cli/php.ini
 RUN a2enmod rewrite
 RUN a2enmod headers
-#CLEAN
-RUN apt-get purge -y libssl-dev libxml2-dev libcurl4-openssl-dev libfreetype6-dev libmemcached-dev libjpeg-dev autoconf imagemagick libmagickwand-dev libpcre3-dev libgeoip-dev zlib1g-dev g++ pwgen wget make libmcrypt-dev libicu-dev re2c libmysqlclient-dev libzip-dev software-properties-common
 RUN rm /etc/apache2/sites-enabled/000-default.conf
 COPY ./default.conf /etc/apache2/sites-enabled/000-default.conf 
+#CLEAN
 RUN apt-get clean
 RUN apt-get autoremove -y
 RUN rm -rf /tmp/*
