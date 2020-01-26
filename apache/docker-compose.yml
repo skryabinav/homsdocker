@@ -5,7 +5,9 @@ services:
       context: ./docker/
       dockerfile: ./apache.docker
     volumes:
-      - ./workspace/:/var/www
+      - ./workspace/:/var/www/
+      - ./vhost/:/var/vhost/
+      - ./docker/vhost-conf/:/etc/apache2/sites-enabled/
       - /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock
     ports:
-      - "808:80"
+      - "80:80"
