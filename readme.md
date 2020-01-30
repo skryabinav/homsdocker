@@ -1,22 +1,20 @@
+# homsdocker
 ## Настраиваем окружение дома
 ### Настраиваем dnsmasq
 Это очень удобно для нескольких сайтов, если вам не хочется каждый домен прописывать в /etc/hosts
 
 Делается очень просто:
 1. Добавляем в файл `/etc/NetworkManager/NetworkManager.conf` в блок [main] `dns=dnsmasq`
-1. 
-```bash
-sudo mv /etc/resolv.conf /etc/resolv.conf.backup
-sudo ln -s /var/run/NetworkManager/resolv.conf /etc/resolv.conf
-```
-1. 
-```bash
-echo 'address=/.nik777/127.0.0.1' | sudo tee /etc/NetworkManager/dnsmasq.d/nik777-wildcard.conf`
-```
-1. 
-```bash
-sudo systemctl reload NetworkManager
-```
+1. ```bash
+   sudo mv /etc/resolv.conf /etc/resolv.conf.backup
+   sudo ln -s /var/run/NetworkManager/resolv.conf /etc/resolv.conf
+   ```
+1.  ```bash
+    echo 'address=/.nik777/127.0.0.1' | sudo tee /etc/NetworkManager/dnsmasq.d/nik777-wildcard.conf`
+    ```
+1. ```bash
+   sudo systemctl reload NetworkManager
+   ```
 
 *nik777* - имя желаемого домена, в результате `yozheg.com.nik777` ведет на нашу машину.
 
