@@ -1,0 +1,35 @@
+version: '3'
+services:
+  back:
+    container_name: 'back'
+    build:
+      context: '.docker/'
+      args:
+        - USER_ID
+        - GROUP_ID
+    volumes:
+      - './project/:/var/www/project'
+
+  nginx:
+    container_name: 'nginx'
+    image: nginx
+    ports:
+      - "88:80"
+    volumes:
+      - './.docker/nginxconf:/etc/nginx/conf.d'
+      - './project/:/var/www/project'
+
+  mysql:
+    container_name: 'mysql'
+    image: mysql:8
+    environment:
+        MYSQL_DATABASE: ${DB_DATABASE:-laraveldb}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-12345678}
+        MYSQL_PASSWORD: ${DB_PASSWORD:-12345678}
+        MYSQL_USER: ${DB_USERNAME:-laravel}
+    volumes:
+      - mysqldb:/var/lib/mysql
+
+volumes:
+  mysqldb:
+    driver: local
