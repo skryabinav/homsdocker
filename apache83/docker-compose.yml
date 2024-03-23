@@ -1,0 +1,30 @@
+version: '2'
+services:
+  apache:
+    build:
+      context: ./docker/
+      dockerfile: ./apache.docker
+    volumes:
+      - ./workspace/:/var/www/
+      - ./vhost/:/var/vhost/
+      - ./docker/vhost-conf/:/etc/apache2/sites-enabled/
+      - /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock
+    ports:
+      - "80:80"
+  bitrixmysql:
+    build:
+      context: ./docker/
+      dockerfile: ./mysql.docker
+    ports:
+      - '33306:3306'
+    volumes:
+      - bitrixdb:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: bitrix
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql-mode=""
+volumes:
+  bitrixdb:
+    driver: local

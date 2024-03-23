@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-ARG full_name=7.2
+ARG full_name=8.3
 ARG user_id=1000
 RUN apt-get update && apt-get install -y tzdata
 RUN apt-get -y install software-properties-common apache2 apache2-bin apache2-utils curl zip unzip locales zip unzip git
@@ -8,7 +8,7 @@ RUN locale-gen ru_RU.CP1251 && locale-gen ru_RU.KOI8-R && locale-gen ru_RU.UTF-8
 RUN echo LC_ALL="ru_RU.UTF-8">>/etc/environment && echo LANGUAGE="ru_RU.UTF-8">>/etc/environment
 RUN add-apt-repository -y ppa:ondrej/php
 RUN apt update
-RUN apt-get install -y libapache2-mod-php${full_name} php${full_name} php${full_name}-cli php${full_name}-common php${full_name}-curl php${full_name}-gd php${full_name}-json php${full_name}-ldap php${full_name}-mbstring php${full_name}-mysql php${full_name}-opcache php${full_name}-readline php${full_name}-xml php${full_name}-zip
+RUN apt-get install -y libapache2-mod-php${full_name} php${full_name} php${full_name}-cli php${full_name}-common php${full_name}-curl php${full_name}-gd php${full_name}-ldap php${full_name}-mbstring php${full_name}-mysql php${full_name}-opcache php${full_name}-readline php${full_name}-xml php${full_name}-zip
 RUN apt-get purge -y libssl-dev libxml2-dev libcurl4-openssl-dev libfreetype6-dev libmemcached-dev libjpeg-dev autoconf imagemagick libmagickwand-dev libpcre3-dev libgeoip-dev zlib1g-dev g++ pwgen wget make libmcrypt-dev libicu-dev re2c libmysqlclient-dev libzip-dev software-properties-common
 #CONFIG
 ENV TZ 'Europe/Moscow'
